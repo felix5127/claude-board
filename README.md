@@ -21,10 +21,14 @@ Visual dashboard for [Claude Code](https://docs.anthropic.com/en/docs/claude-cod
 ## Quick Start
 
 ```bash
-# Install globally
-npm install -g claude-board
+# Run directly (no install needed)
+npx @felix5127/claude-board
+```
 
-# Launch (auto-opens browser)
+Or install globally:
+
+```bash
+npm install -g @felix5127/claude-board
 claude-board
 ```
 
