@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { useAPI } from '../hooks/useAPI';
 import { TeamMemberCard } from '../components/TeamMemberCard';
 import { InboxTimeline } from '../components/InboxTimeline';
+import { LoadingSkeleton } from '../components/LoadingSkeleton';
+import { EmptyState } from '../components/EmptyState';
 
 // ── 类型定义 ──
 
@@ -50,7 +52,7 @@ export function Teams() {
   // ── 加载态 / 错误态 ──
 
   if (loading) {
-    return <div className="text-gray-500 dark:text-gray-400">Loading teams...</div>;
+    return <LoadingSkeleton count={3} />;
   }
 
   if (error) {
@@ -58,7 +60,12 @@ export function Teams() {
   }
 
   if (!teams?.length) {
-    return <div className="text-gray-400 dark:text-gray-500">No teams found.</div>;
+    return (
+      <EmptyState
+        title="No teams found"
+        description="Team data will appear here once Claude Code teams are configured."
+      />
+    );
   }
 
   // ── 正常渲染 ──
@@ -123,7 +130,10 @@ export function Teams() {
                 </div>
               ))}
               {Object.keys(teamDetail.inboxes).length === 0 && (
-                <div className="text-xs text-gray-400 dark:text-gray-600">No inbox data</div>
+                <EmptyState
+                  title="No inbox data"
+                  description="Inbox messages will appear once agents communicate."
+                />
               )}
             </div>
           </div>

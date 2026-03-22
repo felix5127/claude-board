@@ -8,6 +8,8 @@ import { useCallback } from 'react';
 import { useAPI } from '../hooks/useAPI';
 import { useSSE } from '../hooks/useSSE';
 import { MessageBubble, type ContentBlock } from '../components/MessageBubble';
+import { LoadingSkeleton } from '../components/LoadingSkeleton';
+import { EmptyState } from '../components/EmptyState';
 
 // ── 类型定义 ──
 
@@ -45,13 +47,14 @@ export function Timeline() {
 
   if (!sessionId) {
     return (
-      <div className="text-gray-400 dark:text-gray-500 text-center mt-20">
-        Select a session from the Sessions tab to view its timeline.
-      </div>
+      <EmptyState
+        title="No session selected"
+        description="Select a session from the Sessions tab to view its timeline."
+      />
     );
   }
 
-  if (loading) return <div className="text-gray-500">Loading conversation...</div>;
+  if (loading) return <LoadingSkeleton count={5} />;
   if (error) return <div className="text-red-400">Error: {error}</div>;
 
   // ── 过滤：只显示 user 和 assistant 消息 ──
@@ -59,6 +62,15 @@ export function Timeline() {
   const displayMessages = messages?.filter(
     (m) => m.type === 'user' || m.type === 'assistant'
   ) ?? [];
+
+  if (displayMessages.length === 0) {
+    return (
+      <EmptyState
+        title="Empty conversation"
+        description={`Session ${sessionId.slice(0, 8)}... has no displayable messages.`}
+      />
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto">

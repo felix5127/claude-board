@@ -2,6 +2,7 @@ import { watch } from 'chokidar';
 import type { SSEBroker } from './sse.js';
 import { homedir } from 'os';
 import { join } from 'path';
+import { invalidateSessionCache } from './routes/sessions.js';
 
 // ── Chokidar 文件监听器 ──
 // 监控 ~/.claude/ 下的 JSONL / JSON 文件变更，
@@ -32,6 +33,7 @@ export function startWatcher(broker: SSEBroker): void {
   );
 
   watcher.on('change', (path) => {
+    invalidateSessionCache();
     const sessionId = extractSessionId(path);
     broker.broadcast({
       type: 'file-change',
@@ -42,6 +44,7 @@ export function startWatcher(broker: SSEBroker): void {
   });
 
   watcher.on('add', (path) => {
+    invalidateSessionCache();
     broker.broadcast({
       type: 'file-add',
       path,

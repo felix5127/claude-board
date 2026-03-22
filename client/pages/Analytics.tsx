@@ -6,8 +6,11 @@ import { useAPI } from '../hooks/useAPI';
 import { StatCard } from '../components/StatCard';
 import { TokenChart } from '../components/TokenChart';
 import { ToolDistribution } from '../components/ToolDistribution';
+import { LoadingSkeleton } from '../components/LoadingSkeleton';
+import { EmptyState } from '../components/EmptyState';
 
 // ── Session 摘要类型 ──
+
 interface SessionData {
   readonly sessionId: string;
   readonly slug?: string;
@@ -19,7 +22,15 @@ interface SessionData {
   readonly modified: string;
 }
 
+interface SessionsResponse {
+  readonly sessions: readonly SessionData[];
+  readonly total: number;
+  readonly limit: number;
+  readonly offset: number;
+}
+
 // ── 数值格式化 ──
+
 function formatNum(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
   if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
@@ -27,16 +38,24 @@ function formatNum(n: number): string {
 }
 
 export function Analytics() {
-  const { data: sessions, loading, error } = useAPI<SessionData[]>('/sessions');
+  const { data, loading, error } = useAPI<SessionsResponse>('/sessions?limit=500');
 
   if (loading) {
-    return <div className="text-gray-500 dark:text-gray-400">Loading analytics...</div>;
+    return <LoadingSkeleton count={4} />;
   }
   if (error) {
     return <div className="text-red-400">Error: {error}</div>;
   }
-  if (!sessions?.length) {
-    return <div className="text-gray-500 dark:text-gray-400">No session data found.</div>;
+
+  const sessions = data?.sessions ?? [];
+
+  if (sessions.length === 0) {
+    return (
+      <EmptyState
+        title="No analytics data"
+        description="Session data will appear here once Claude Code sessions are detected."
+      />
+    );
   }
 
   // ── 聚合统计 ──
