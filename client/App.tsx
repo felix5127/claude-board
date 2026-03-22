@@ -2,15 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainLayout } from './layouts/MainLayout';
 import { Sessions } from './pages/Sessions';
 import { Timeline } from './pages/Timeline';
-
-// ─────────────────────────────────────────────
-// 页面占位组件
-// 后续 Task 会替换为完整实现
-// ─────────────────────────────────────────────
-
-function AnalyticsPage() {
-  return <div className="text-gray-500 dark:text-gray-400">Analytics — coming soon</div>;
-}
+import { Analytics } from './pages/Analytics';
 
 function TeamsPage() {
   return <div className="text-gray-500 dark:text-gray-400">Teams — coming soon</div>;
@@ -29,7 +21,7 @@ export default function App() {
           <Route index element={<Sessions />} />
           <Route path="timeline" element={<Timeline />} />
           <Route path="timeline/:sessionId" element={<Timeline />} />
-          <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="analytics" element={<Analytics />} />
           <Route path="teams" element={<TeamsPage />} />
         </Route>
       </Routes>
