@@ -3,10 +3,7 @@ import { MainLayout } from './layouts/MainLayout';
 import { Sessions } from './pages/Sessions';
 import { Timeline } from './pages/Timeline';
 import { Analytics } from './pages/Analytics';
-
-function TeamsPage() {
-  return <div className="text-gray-500 dark:text-gray-400">Teams — coming soon</div>;
-}
+import { Teams } from './pages/Teams';
 
 // ─────────────────────────────────────────────
 // 应用根组件
@@ -22,7 +19,7 @@ export default function App() {
           <Route path="timeline" element={<Timeline />} />
           <Route path="timeline/:sessionId" element={<Timeline />} />
           <Route path="analytics" element={<Analytics />} />
-          <Route path="teams" element={<TeamsPage />} />
+          <Route path="teams" element={<Teams />} />
         </Route>
       </Routes>
     </BrowserRouter>
