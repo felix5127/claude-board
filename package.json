@@ -1,22 +1,28 @@
 {
   "name": "claude-board",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
+  "version": "0.1.0",
+  "description": "Visual dashboard for Claude Code conversations — view chat history, tool usage, token analytics, and agent teams",
+  "main": "dist/server/index.js",
+  "bin": {
+    "claude-board": "./dist/server/cli.js"
   },
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "tsx watch server/index.ts",
     "dev:client": "vite",
-    "build": "vite build && tsc -p server/tsconfig.json",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build",
+    "build:server": "tsc -p server/tsconfig.json",
+    "start": "node dist/server/index.js",
     "test": "vitest",
     "test:run": "vitest run"
   },
-  "keywords": [],
+  "keywords": ["claude", "claude-code", "dashboard", "visualizer", "conversation"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "chokidar": "^5.0.0",

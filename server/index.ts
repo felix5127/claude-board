@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { SSEBroker } from './sse.js';
 import { startWatcher } from './watcher.js';
 import sessionsRouter from './routes/sessions.js';
@@ -28,6 +30,18 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/api/messages', messagesRouter);
 app.use('/api/teams', teamsRouter);
 app.use('/api/events', createEventsRouter(broker));
+
+// ── 生产模式：静态文件服务 ──
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const clientDist = join(__dirname, '..', 'client');
+
+app.use(express.static(clientDist));
+
+// SPA fallback — 所有非 API 路由返回 index.html（Express 5 需要命名通配符）
+app.get('{*path}', (_req, res) => {
+  res.sendFile(join(clientDist, 'index.html'));
+});
 
 // ── 启动 ──
 
