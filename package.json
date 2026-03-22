@@ -1,10 +1,10 @@
 {
-  "name": "claude-board",
+  "name": "@felix5127/claude-board",
   "version": "0.1.0",
   "description": "Visual dashboard for Claude Code conversations — view chat history, tool usage, token analytics, and agent teams",
   "main": "dist/server/index.js",
   "bin": {
-    "claude-board": "./dist/server/cli.js"
+    "claude-board": "dist/server/cli.js"
   },
   "files": [
     "dist/client/index.html",
@@ -25,12 +25,20 @@
     "test": "vitest",
     "test:run": "vitest run"
   },
-  "keywords": ["claude", "claude-code", "dashboard", "visualizer", "conversation", "analytics", "cli"],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "dashboard",
+    "visualizer",
+    "conversation",
+    "analytics",
+    "cli"
+  ],
   "author": "Felix <512780808@qq.com> (https://github.com/felix5127)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/felix5127/claude-board.git"
+    "url": "git+https://github.com/felix5127/claude-board.git"
   },
   "homepage": "https://github.com/felix5127/claude-board#readme",
   "bugs": {
