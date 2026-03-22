@@ -69,13 +69,16 @@ async function loadAllSessions(): Promise<ReadonlyArray<Record<string, unknown>>
     }
   }
 
+  // 过滤空会话（只有 queue-operation / progress 等系统事件，无实际对话）
+  const nonEmpty = sessions.filter((s) => (s.messageCount as number) > 0);
+
   // 按修改时间倒序
-  sessions.sort((a, b) =>
+  nonEmpty.sort((a, b) =>
     String(b.modified).localeCompare(String(a.modified))
   );
 
-  sessionCache = { data: sessions, timestamp: Date.now() };
-  return sessions;
+  sessionCache = { data: nonEmpty, timestamp: Date.now() };
+  return nonEmpty;
 }
 
 // ── 搜索过滤 ──

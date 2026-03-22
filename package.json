@@ -20,9 +20,20 @@
     "test": "vitest",
     "test:run": "vitest run"
   },
-  "keywords": ["claude", "claude-code", "dashboard", "visualizer", "conversation"],
-  "author": "",
+  "keywords": ["claude", "claude-code", "dashboard", "visualizer", "conversation", "analytics", "cli"],
+  "author": "Felix <512780808@qq.com> (https://github.com/felix5127)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/felix5127/claude-board.git"
+  },
+  "homepage": "https://github.com/felix5127/claude-board#readme",
+  "bugs": {
+    "url": "https://github.com/felix5127/claude-board/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "type": "module",
   "dependencies": {
     "chokidar": "^5.0.0",

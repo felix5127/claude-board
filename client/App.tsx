@@ -16,8 +16,7 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route index element={<Sessions />} />
-          <Route path="timeline" element={<Timeline />} />
-          <Route path="timeline/:sessionId" element={<Timeline />} />
+          <Route path="session/:sessionId" element={<Timeline />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="teams" element={<Teams />} />
         </Route>

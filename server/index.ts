@@ -43,9 +43,12 @@ app.get('{*path}', (_req, res) => {
   res.sendFile(join(clientDist, 'index.html'));
 });
 
-// ── 启动 ──
+// ── 启动（导出 Promise 供 CLI 使用） ──
 
-app.listen(PORT, () => {
-  console.log(`Claude Board server running on http://localhost:${PORT}`);
-  startWatcher(broker);
+export const serverReady = new Promise<number>((resolve) => {
+  app.listen(PORT, () => {
+    console.log(`Claude Board server running on http://localhost:${PORT}`);
+    startWatcher(broker);
+    resolve(PORT);
+  });
 });

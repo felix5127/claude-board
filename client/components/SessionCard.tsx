@@ -50,7 +50,7 @@ export function SessionCard(props: SessionCardProps) {
 
   return (
     <button
-      onClick={() => navigate(`/timeline/${props.sessionId}`)}
+      onClick={() => navigate(`/session/${props.sessionId}`)}
       className="w-full text-left p-4 rounded-xl border border-gray-200 hover:border-gray-400
                  bg-gray-50 hover:bg-gray-100
                  dark:border-gray-800 dark:hover:border-gray-600

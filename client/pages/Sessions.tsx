@@ -1,5 +1,5 @@
 // ── Sessions Page ──
-// 会话列表页：卡片网格 + 搜索过滤 + SSE 实时刷新
+// 会话列表页：按时间分组 + 搜索过滤 + SSE 实时刷新
 // 从 /api/sessions 拉取分页数据，监听 /api/events 自动刷新
 
 import { useState, useCallback, useMemo } from 'react';
@@ -8,6 +8,7 @@ import { useSSE } from '../hooks/useSSE';
 import { SessionCard } from '../components/SessionCard';
 import { LoadingSkeleton } from '../components/LoadingSkeleton';
 import { EmptyState } from '../components/EmptyState';
+import { groupSessionsByTime } from '../utils/groupSessionsByTime';
 
 // ── 类型定义 ──
 
@@ -68,6 +69,12 @@ export function Sessions() {
     [sessions],
   );
 
+  // 按时间分组（搜索过滤后再分组，空组自动隐藏）
+  const groups = useMemo(
+    () => groupSessionsByTime(sessions),
+    [sessions],
+  );
+
   if (loading) {
     return <LoadingSkeleton count={6} />;
   }
@@ -108,10 +115,26 @@ export function Sessions() {
           }
         />
       ) : (
-        /* 卡片网格 */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {sessions.map((session) => (
-            <SessionCard key={session.sessionId} {...session} />
+        /* 时间分组渲染 */
+        <div className="space-y-8">
+          {groups.map((group) => (
+            <section key={group.label}>
+              {/* 分组标题：sticky 吸顶 */}
+              <h2
+                className="sticky top-0 z-10 py-2 px-1 mb-3
+                           text-sm font-semibold text-gray-500 dark:text-gray-400
+                           bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm
+                           border-b border-gray-100 dark:border-gray-800/50"
+              >
+                {group.label}
+              </h2>
+              {/* 卡片网格 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {group.sessions.map((session) => (
+                  <SessionCard key={session.sessionId} {...session} />
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       )}
