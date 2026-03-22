@@ -7,15 +7,20 @@
     "claude-board": "./dist/server/cli.js"
   },
   "files": [
-    "dist/"
+    "dist/client/index.html",
+    "dist/client/assets/",
+    "dist/server/**/*.js",
+    "!dist/server/**/__tests__/"
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "tsx watch server/index.ts",
     "dev:client": "vite",
-    "build": "npm run build:client && npm run build:server",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "tsc -p server/tsconfig.json",
+    "prepublishOnly": "npm run test:run && npm run build",
     "start": "node dist/server/index.js",
     "test": "vitest",
     "test:run": "vitest run"
